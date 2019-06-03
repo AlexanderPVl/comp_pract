@@ -156,17 +156,17 @@ template<size_t N>
 block<N> word_wise_2p32_mod_sum(block<N> b1, block<N> b2){
 	block<N> res;
 	for (int i = 0; i < N; ++i){
-		res[i] = (b1[i] + b2[i]) & 0xffff;
+		res[i] = (b1[i] + b2[i]) & 0xffffffff;
 	}
 	return res;
 }
 
 block<4, char> word_to_bytes(word w){
 	block<4, char> b;
-	b[0] = (w >> 24) & 0xff;
-	b[1] = (w >> 16) & 0xff;
-	b[2] = (w >> 8) & 0xff;
-	b[3] = w & 0xff;
+	b[0] = (w >> 24) & 0xffff;
+	b[1] = (w >> 16) & 0xffff;
+	b[2] = (w >> 8) & 0xffff;
+	b[3] = w & 0xffff;
 
 	return b;
 }
