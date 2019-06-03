@@ -20,8 +20,8 @@ block_8 H1(block_8 E0, block_32 B, int PASS){
 			//P = F1(T0, T2, T5, T6, T1, T4, T3);
 			P = F_51(T6, T5, T4, T3, T2, T1, T0);
 		}
-		r = (ROT(P, 7) + ROT(T7, 11)) & 0xffff;
-		R = (r + B[i]) & 0xffff;
+		r = (ROT(P, 7) + ROT(T7, 11)) % 0xffffffff;
+		R = (r + B[i]) % 0xffffffff;
 		T7 = T6, T6 = T5, T5 = T4, T4 = T3, T3 = T2, T2 = T1, T1 = R;
 	}
 	return block_8({ T7, T6, T5, T4, T3, T2, T1, T0 });
@@ -43,9 +43,9 @@ block_8 H2(block_8 E1, block_32 B, int PASS){
 			//P = F2(T6, T0, T1, T2, T5, T4, T3);
 			P = F_52(T6, T5, T4, T3, T2, T1, T0);
 		}
-		r1 = (ROT(P, 7) + ROT(T7, 11)) & 0xffff;
-		r2 = (r1 + B[ord2[i]]) & 0xffff;
-		R = (r2 + K[0][i]) & 0xffff;
+		r1 = (ROT(P, 7) + ROT(T7, 11)) % 0xffffffff;
+		r2 = (r1 + B[ord2[i]]) % 0xffffffff;
+		R = (r2 + K[0][i]) % 0xffffffff;
 		T7 = T6, T6 = T5, T5 = T4, T4 = T3, T3 = T2, T2 = T1, T1 = T0, T0 = R;
 	}
 	return block_8({ T7, T6, T5, T4, T3, T2, T1, T0 });
@@ -67,9 +67,9 @@ block_8 H3(block_8 E1, block_32 B, int PASS){
 			//P = F3(T5, T0, T3, T2, T6, T1, T4);
 			P = F_53(T6, T5, T4, T3, T2, T1, T0);
 		}
-		r1 = (ROT(P, 7) + ROT(T7, 11)) & 0xffff;
-		r2 = (r1 + B[ord3[i]]) & 0xffff;
-		R = (r2 + K[1][i]) & 0xffff;
+		r1 = (ROT(P, 7) + ROT(T7, 11)) % 0xffffffff;
+		r2 = (r1 + B[ord3[i]]) % 0xffffffff;
+		R = (r2 + K[1][i]) % 0xffffffff;
 		T7 = T6, T6 = T5, T5 = T4, T4 = T3, T3 = T2, T2 = T1, T1 = T0, T0 = R;
 	}
 	return block_8({ T7, T6, T5, T4, T3, T2, T1, T0 });
@@ -87,9 +87,9 @@ block_8 H4(block_8 E1, block_32 B, int PASS){
 			//P = F4(T0, T5, T1, T4, T3, T6, T2);
 			P = F_54(T6, T5, T4, T3, T2, T1, T0);
 		}
-		r1 = (ROT(P, 7) + ROT(T7, 11)) & 0xffff;
-		r2 = (r1 + B[ord4[i]]) & 0xffff;
-		R = (r2 + K[2][i]) & 0xffff;
+		r1 = (ROT(P, 7) + ROT(T7, 11)) % 0xffffffff;
+		r2 = (r1 + B[ord4[i]]) % 0xffffffff;
+		R = (r2 + K[2][i]) % 0xffffffff;
 		T7 = T6, T6 = T5, T5 = T4, T4 = T3, T3 = T2, T2 = T1, T1 = T0, T0 = R;
 	}
 	return block_8({ T7, T6, T5, T4, T3, T2, T1, T0 });
@@ -103,9 +103,9 @@ block_8 H5(block_8 E1, block_32 B, int PASS){
 			//P = F4(T3, T5, T2, T1, T6, T0, T4);
 			P = F_55(T6, T5, T4, T3, T2, T1, T0);
 		}
-		r1 = (ROT(P, 7) + ROT(T7, 11)) & 0xffff;
-		r2 = (r1 + B[ord5[i]]) & 0xffff;
-		R = (r2 + K[3][i]) & 0xffff;
+		r1 = (ROT(P, 7) + ROT(T7, 11)) % 0xffffffff;
+		r2 = (r1 + B[ord5[i]]) % 0xffffffff;
+		R = (r2 + K[3][i]) % 0xffffffff;
 		T7 = T6, T6 = T5, T5 = T4, T4 = T3, T3 = T2, T2 = T1, T1 = T0, T0 = R;
 	}
 	return block_8({ T7, T6, T5, T4, T3, T2, T1, T0 });
@@ -162,8 +162,8 @@ void haval(const char* message, int PASS, int version, int digest_length){
 	for (int i = 0; i < extrabit / 8 - 1; ++i){
 		Bn[offset / 8 + i] = 0;
 	}
-	Bn[118] = bytecnt & 0xf, Bn[119] = bytecnt & 0xff - bytecnt & 0xf;
-	Bn[120] = bytecnt & 0xfff - bytecnt & 0xff, Bn[121] = bytecnt & 0xffff - bytecnt & 0xfff;
+	Bn[118] = bytecnt & 0xff, Bn[119] = bytecnt & 0xffff - bytecnt & 0xff;
+	Bn[120] = bytecnt & 0xffffff - bytecnt & 0xffff, Bn[121] = bytecnt & 0xffffffff - bytecnt & 0xffffff;
 	Bn[122] = 0, Bn[123] = 0, Bn[124] = 0, Bn[125] = 0;
 	Bn[126] = slise<10, 0, 8>(std::bitset<10>(digest_length)).to_ulong();
 	Bn[127] = concatenate<8>(std::bitset<3>(version), std::bitset<3>(PASS), slise<10, 8, 10>(std::bitset<10>(digest_length))).to_ulong();
