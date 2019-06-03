@@ -22,7 +22,6 @@ int main(){
 	haval(sample_message3, PASS, VERSION, digest_leng);
 	haval(sample_message4, PASS, VERSION, digest_leng);
 	haval(sample_message5, PASS, VERSION, digest_leng);
-	haval("The quick brown fox jumps over the lazy dog", PASS, VERSION, digest_leng);
 
 	return 0;
 }
