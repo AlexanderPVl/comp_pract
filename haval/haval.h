@@ -168,7 +168,7 @@ void haval(const char* message, int PASS, int version, int digest_length){
 	Bn[126] = slise<10, 0, 8>(std::bitset<10>(digest_length)).to_ulong();
 	Bn[127] = concatenate<8>(std::bitset<3>(version), std::bitset<3>(PASS), slise<10, 8, 10>(std::bitset<10>(digest_length))).to_ulong();
 	for (int i = 0; i < 32; ++i)
-		Bi[i] = bytes_to_word(Bn[4 * i], Bn[4 * i + 1], Bn[4 * i + 2], Bn[4 * i + 3]);
+		Bi[31 - i] = bytes_to_word(Bn[4 * i], Bn[4 * i + 1], Bn[4 * i + 2], Bn[4 * i + 3]);
 	D0 = H(D0, Bi, PASS);
 	//char* s = new char[1];
 	char* s = (char*)malloc(256);
@@ -176,8 +176,8 @@ void haval(const char* message, int PASS, int version, int digest_length){
 	s[0] = '\0';
 
 
-	for (int i = 0; i < 7; ++i){
-		l += sprintf(s + l, "%x", D0[i]);
+	for (int i = 0; i < 8; ++i){
+		l += sprintf(s + l, "%8x%c", D0[i], ' ');
 	}
 
 	std::cout << s << std::endl;
