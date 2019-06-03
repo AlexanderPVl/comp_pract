@@ -177,7 +177,7 @@ void haval(const char* message, int PASS, int version, int digest_length){
 
 
 	for (int i = 0; i < 8; ++i){
-		l += sprintf(s + l, "%8x%c", D0[i], ' ');
+		l += sprintf(s + l, "%08x%c", D0[i], ' ');
 	}
 
 	std::cout << s << std::endl;
